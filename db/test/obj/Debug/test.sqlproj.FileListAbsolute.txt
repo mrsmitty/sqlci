@@ -1,0 +1,6 @@
+C:\workspace\perpetual\sqlcontainer\db\test\bin\Debug\test.dacpac
+C:\workspace\perpetual\sqlcontainer\db\test\bin\Debug\test.dll
+C:\workspace\perpetual\sqlcontainer\db\test\bin\Debug\test.pdb
+C:\workspace\perpetual\sqlcontainer\db\test\obj\Debug\test.sqlprojAssemblyReference.cache
+C:\workspace\perpetual\sqlcontainer\db\test\obj\Debug\test.dll
+C:\workspace\perpetual\sqlcontainer\db\test\obj\Debug\test.pdb
