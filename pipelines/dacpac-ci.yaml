@@ -7,11 +7,11 @@ resources:
   containers:
     - container: 'sql_ci'
       image: pwsacrsqldevops.azurecr.io/testdb:2
-      options: -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=HJkds*(pvdhsiuh289pV" --expose 1433
+      options: -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=HJkds*(pvdhsiuh289pV" --expose 1433 --user 0:0
       endpoint: 'pwsacrsqldevops'
 
 jobs:
-  - job: 
+  - job: BuildDacpac
     pool:
       vmImage: windows-latest
     steps:
@@ -31,7 +31,7 @@ jobs:
     - publish: '$(build.artifactstagingdirectory)'
       artifact: drop
 
-  - job: RunInContainer
+  - job: TestDacpac
     pool:
       vmImage: 'ubuntu-18.04'
     container: 'sql_ci'
