@@ -32,12 +32,12 @@ jobs:
     steps:
       - download: current
         artifact: drop
-      - task: SqlAzureDacpacDeployment@1
+      - task: SqlServerDacpacDeployment@1
         displayName: Execute Azure SQL DacpacTask
         inputs:
-          authenticationType: server
-          serverName: 'pws-aci-sqldevops.australiaeast.azurecontainer.io'
-          databaseName: 'test'
-          sqlUsername: 'sa'
-          sqlPassword: 'HJkds*(pvdhsiuh289pV'
-          dacpacFile: '$(Pipeline.Workspace)/drop/test.dacpac'
+          ServerName: 'pws-aci-sqldevops.australiaeast.azurecontainer.io'
+          DatabaseName: 'test'
+          SqlUsername: 'sa'
+          SqlPassword: 'HJkds*(pvdhsiuh289pV'
+          DacpacFile: '$(Pipeline.Workspace)/drop/test.dacpac'
+          TargetMethod: server
