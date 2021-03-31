@@ -1,0 +1,42 @@
+trigger:
+  branches:
+    include:
+      - features/pipelines
+
+jobs:
+  - job: BuildDacpac
+    pool:
+      vmImage: windows-latest
+    steps:
+    - task: MSBuild@1
+      displayName: 'DACPAC build'
+      inputs:
+        solution: '$(System.DefaultWorkingDirectory)/db/test/test.sln'
+
+    - task: CopyFiles@2
+      displayName: 'Copy DACPACs'
+      inputs:
+        cleanTargetFolder: false
+        sourceFolder: '$(System.DefaultWorkingDirectory)/db/test/bin/Debug/'
+        contents: '*.dacpac'
+        targetFolder: '$(build.artifactstagingdirectory)'
+
+    - publish: '$(build.artifactstagingdirectory)'
+      artifact: drop
+
+  - job: TestDacpac
+    dependsOn: BuildDacpac
+    condition: succeeded()
+    pool:
+      vmImage: 'ubuntu-18.04'
+    steps:
+      - download: current
+        artifact: drop
+      - task: SqlAzureDacpacDeployment@1
+        displayName: Execute Azure SQL DacpacTask
+        inputs:
+          ServerName: 'pws-aci-sqldevops.australiaeast.azurecontainer.io'
+          DatabaseName: 'test'
+          SqlUsername: 'sa'
+          SqlPassword: 'HJkds*(pvdhsiuh289pV'
+          DacpacFile: '$(Pipeline.Workspace)/drop/test.dacpac'
