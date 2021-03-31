@@ -44,6 +44,7 @@ jobs:
         env:
           WORKINGDIR: $(Pipeline.Workspace)
         inputs:
+          targetType: inline
           workingDirectory: $(Pipeline.Workspace)
           script: |
             echo $WORKINGDIR
