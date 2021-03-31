@@ -32,5 +32,4 @@ ENV SA_PASSWORD=$PASSWORD
 RUN ( /opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" \
     && /opt/sqlpackage/sqlpackage /a:Publish /tsn:. /tdn:${DBNAME} /tu:sa /tp:$SA_PASSWORD /sf:/tmp/db/db.dacpac \
     && rm -r /tmp/db \
-    && pkill sqlservr \
-    && rm -r /opt/sqlpackage
+    && pkill sqlservr 

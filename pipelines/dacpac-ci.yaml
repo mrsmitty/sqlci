@@ -3,6 +3,13 @@ trigger:
     include:
       - features/pipelines
 
+resources:
+  containers:
+    - container: 'sql_ci'
+      image: pwsacrsqldevops.azurecr.io/testdb:2
+      options: -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=HJkds*(pvdhsiuh289pV" --port 1433
+      endpoint: 'pwsacrsqldevops'
+
 jobs:
   - job: 
     pool:
@@ -21,8 +28,21 @@ jobs:
         contents: '*.dacpac'
         targetFolder: '$(build.artifactstagingdirectory)'
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Artifact'
-      inputs:        
-        targetPath: '$(build.artifactstagingdirectory)'
-        artifact: 'drop'
+    - publish: '$(build.artifactstagingdirectory)'
+      artifact: drop
+
+  - job: RunInContainer
+    pool:
+      vmImage: 'ubuntu-18.04'
+    container: 'sql_ci'
+    steps:
+      - download: current
+        artifact: drop
+      - task: Bash@3
+        env:
+          WORKINGDIR:  $(Pipeline.Workspace)
+        inputs:
+          script: |
+            [[ -f /opt/sqlpackage/sqlpackage ]] && echo "sqlpackage exists!"
+            [[ -f $WORKINGDIR/drop/test.dacpac ]] && echo "sqlpackage exists!"
+    
