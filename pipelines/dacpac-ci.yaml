@@ -1,0 +1,22 @@
+
+jobs:
+  - job: 
+    steps:
+    - task: MSBuild@1
+      displayName: 'DACPAC build'
+      inputs:
+        solution: '$(System.DefaultWorkingDirectory)/db/test/test.sln'
+
+    - task: CopyFiles@2
+      displayName: 'Copy DACPACs'
+      inputs:
+        cleanTargetFolder: false
+        sourceFolder: '$(System.DefaultWorkingDirectory)/db/test/bin/Debug/'
+        contents: '*.dacpac'
+        targetFolder: '$(build.artifactstagingdirectory)'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Artifact'
+      inputs:        
+        targetPath: '$(build.artifactstagingdirectory)'
+        artifact: 'drop'
