@@ -43,6 +43,7 @@ jobs:
       - task: Bash@3
         env:
           WORKINGDIR: $(Pipeline.Workspace)
+          SAPASSWORD: HJkds*(pvdhsiuh289pV
         inputs:
           targetType: inline
           workingDirectory: $(Pipeline.Workspace)
@@ -51,5 +52,5 @@ jobs:
             [[ -f /opt/sqlpackage/sqlpackage ]] && echo "sqlpackage exists!"
             [[ -f $WORKINGDIR/drop/test.dacpac ]] && echo "dacpac exists!"
             ( /opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" \
-            /opt/sqlpackage/sqlpackage /a:Publish /tsn:. /tdn:test /tu:sa /tp:HJkds*(pvdhsiuh289pV /sf:$WORKINGDIR/test.dacpac
+            /opt/sqlpackage/sqlpackage /a:Publish /tsn:. /tdn:test /tu:sa /tp:$SAPASSWORD /sf:$WORKINGDIR/test.dacpac
     
