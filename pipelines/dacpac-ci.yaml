@@ -39,10 +39,10 @@ jobs:
       - download: current
         artifact: drop
       - task: 
-        workingDirectory: $(Pipeline.Workspace)
         env:
           WORKINGDIR: $(Pipeline.Workspace)
         inputs:
+          workingDirectory: $(Pipeline.Workspace)
           script: |
             echo $WORKINGDIR
             [[ -f /opt/sqlpackage/sqlpackage ]] && echo "sqlpackage exists!"
