@@ -7,7 +7,7 @@ resources:
   containers:
     - container: 'sql_ci'
       image: pwsacrsqldevops.azurecr.io/testdb:2
-      options: -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=HJkds*(pvdhsiuh289pV" --port 1433
+      options: -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=HJkds*(pvdhsiuh289pV" --expose 1433
       endpoint: 'pwsacrsqldevops'
 
 jobs:
