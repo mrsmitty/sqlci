@@ -40,9 +40,11 @@ jobs:
         artifact: drop
       - task: Bash@3
         env:
-          WORKINGDIR:  $(Pipeline.Workspace)
+          WORKINGDIR: $(Pipeline.Workspace)
         inputs:
           script: |
+            echo $WORKINGDIR
             [[ -f /opt/sqlpackage/sqlpackage ]] && echo "sqlpackage exists!"
-            [[ -f $WORKINGDIR/drop/test.dacpac ]] && echo "sqlpackage exists!"
+            [[ -f $WORKINGDIR/drop/test.dacpac ]] && echo "dacpac exists!"
+            /opt/sqlpackage/sqlpackage /a:Publish /tsn:. /tdn:test /tu:sa /tp:HJkds*(pvdhsiuh289pV /sf:$WORKINGDIR/test.dacpac
     
