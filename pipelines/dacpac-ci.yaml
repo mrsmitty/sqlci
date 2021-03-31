@@ -51,6 +51,6 @@ jobs:
             echo $WORKINGDIR
             [[ -f /opt/sqlpackage/sqlpackage ]] && echo "sqlpackage exists!"
             [[ -f $WORKINGDIR/drop/test.dacpac ]] && echo "dacpac exists!"
-            ( /opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" \
+            sudo -u mssql ( /opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" \
             && /opt/sqlpackage/sqlpackage /a:Publish /tsn:. /tdn:test /tu:sa /tp:$SAPASSWORD /sf:$WORKINGDIR/test.dacpac
     

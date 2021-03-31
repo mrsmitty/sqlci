@@ -8,3 +8,4 @@
 - https://docs.microsoft.com/en-us/azure/container-instances/container-instances-using-azure-container-registry
 - https://docs.microsoft.com/en-us/azure/container-registry/container-registry-authentication
 - https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
+- https://github.com/brent-robinson/azure-devops-container-jobs-example
