@@ -49,8 +49,9 @@ jobs:
           workingDirectory: $(Pipeline.Workspace)
           script: |
             echo $WORKINGDIR
+            whoami
             [[ -f /opt/sqlpackage/sqlpackage ]] && echo "sqlpackage exists!"
             [[ -f $WORKINGDIR/drop/test.dacpac ]] && echo "dacpac exists!"
-            sudo -u mssql && ( /opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" \
+            su - mssql -c ( /opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" \
             && /opt/sqlpackage/sqlpackage /a:Publish /tsn:. /tdn:test /tu:sa /tp:$SAPASSWORD /sf:$WORKINGDIR/test.dacpac
     
