@@ -38,7 +38,8 @@ jobs:
     steps:
       - download: current
         artifact: drop
-      - task: Bash@3
+      - task: 
+        workingDirectory: $(Pipeline.Workspace)
         env:
           WORKINGDIR: $(Pipeline.Workspace)
         inputs:
