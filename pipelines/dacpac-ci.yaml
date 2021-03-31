@@ -32,6 +32,8 @@ jobs:
       artifact: drop
 
   - job: TestDacpac
+    dependsOn: BuildDacpac
+    condition: succeeded()
     pool:
       vmImage: 'ubuntu-18.04'
     container: 'sql_ci'
