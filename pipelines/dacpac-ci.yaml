@@ -1,6 +1,8 @@
 
 jobs:
   - job: 
+    pool:
+      vmImage: windows-latest
     steps:
     - task: MSBuild@1
       displayName: 'DACPAC build'
