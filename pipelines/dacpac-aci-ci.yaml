@@ -28,7 +28,7 @@ jobs:
     dependsOn: BuildDacpac
     condition: succeeded()
     pool:
-      vmImage: 'ubuntu-18.04'
+      vmImage: 'windows-latest'
     steps:
       - download: current
         artifact: drop
