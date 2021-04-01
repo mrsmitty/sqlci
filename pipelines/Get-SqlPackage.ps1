@@ -1,8 +1,17 @@
 
+[CmdletBinding()]
+param (
+    [Parameter()] [string] $sqlPackageZip
+)
+
 mkdir SqlPackage
-Write-Host "Downloading latest version of SQL Package"
-$sqlPackageUrl = "https://go.microsoft.com/fwlink/?linkid=2157302"
-Invoke-WebRequest -Uri $sqlPackageUrl -OutFile sqlPackage.zip
+if (-Not (Test-Path sqlPackageZip)) {
+    Write-Host "Downloading latest version of SQL Package"
+    $sqlPackageUrl = "https://go.microsoft.com/fwlink/?linkid=2157302"
+    Invoke-WebRequest -Uri $sqlPackageUrl -OutFile sqlPackage.zip
+} else {
+    Copy-Item $sqlPackageZip "$(Get-Location)\sqlpackage.zip"
+}
 
 Write-Host "Unpacking SQL Package"
 Expand-Archive sqlPackage.zip -DestinationPath SqlPackage
