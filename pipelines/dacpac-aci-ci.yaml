@@ -32,12 +32,13 @@ jobs:
     steps:
       - download: current
         artifact: drop
-      - task: SqlServerDacpacDeployment@1
-        displayName: Execute Azure SQL DacpacTask
+      - task: PowerShell@2
+        displayName: Install SqlPackage
         inputs:
-          ServerName: 'pws-aci-sqldevops.australiaeast.azurecontainer.io'
-          DatabaseName: 'test'
-          SqlUsername: 'sa'
-          SqlPassword: 'HJkds*(pvdhsiuh289pV'
-          DacpacFile: '$(Pipeline.Workspace)/drop/test.dacpac'
-          TargetMethod: server
+          targetType: 'filePath'
+          filePath: '$(System.DefaultWorkingDirectory)/pipelines/Get-SqlPackge.ps1'
+      - task: PowerShell@2
+        inputs:
+          targetType: 'filePath'
+          arguments: -sqlUserName sa -sqlUserPassword "HJkds*(pvdhsiuh289pV" -sqlServerName pws-aci-sqldevops.australiaeast.azurecontainer.io -databaseName test -dacpacPath $(Pipeline.Workspace)\drop\test.dacpac
+          filePath: '$(System.DefaultWorkingDirectory)/pipelines/Get-SqlPackge.ps1'
