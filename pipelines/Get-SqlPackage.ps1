@@ -7,8 +7,12 @@ Invoke-WebRequest -Uri $sqlPackageUrl -OutFile sqlPackage.zip
 Write-Host "Unpacking SQL Package"
 Expand-Archive sqlPackage.zip -DestinationPath SqlPackage
 
-Write-Host "Adding $(Get-Location)\SqlPackage to Path"
-$env:Path += ";$(Get-Location)\SqlPackage" 
+Write-Host "Writing SqlPackage to Path vso variables"
+$sqlPackagePath = "$(Get-Location)\SqlPackage\SqlPackage.exe" 
+if (-Not (Test-Path $sqlPackagePath)) {
+    throw "Could not find SqlPackage.exe path"
+}
+echo "##vso[task.setvariable variable=SqlPackagePath]$sqlPackagePath"
 
 Write-Host "removing sqlpackage.zip"
 Remove-Item .\sqlPackage.zip

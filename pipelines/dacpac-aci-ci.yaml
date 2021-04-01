@@ -37,5 +37,5 @@ jobs:
         displayName: Deploy Dacpac
         inputs:
           targetType: 'filePath'
-          arguments: -sqlUserName sa -sqlUserPassword "HJkds*(pvdhsiuh289pV" -sqlServerName pws-aci-sqldevops.australiaeast.azurecontainer.io -databaseName test -dacpacPath $(System.DefaultWorkingDirectory)\test.dacpac
+          arguments: -sqlUserName sa -sqlUserPassword "HJkds*(pvdhsiuh289pV" -sqlServerName pws-aci-sqldevops.australiaeast.azurecontainer.io -databaseName test -dacpacPath $(System.DefaultWorkingDirectory)\test.dacpac -sqlPackagePath $(SqlPackagePath)
           filePath: '$(System.DefaultWorkingDirectory)\pipelines\Publish-Dacpac.ps1'

@@ -30,16 +30,19 @@ param (
     [Parameter(Mandatory = $true)] [string] $sqlUserPassword,
     [Parameter(Mandatory = $true)] [string] $sqlServerName,
     [Parameter(Mandatory = $true)] [string] $databaseName,
-    [Parameter(Mandatory = $true)] [string] $dacpacPath
+    [Parameter(Mandatory = $true)] [string] $dacpacPath,
+    [Parameter(Mandatory = $false)] [string] $sqlPackagePath
 )
 
 $global:ErrorActionPreference = 'Stop';
-$sqlPackagePath = Get-Command sqlpackage -all | Select-Object -first 1 -ExpandProperty Source
-if (-Not (Test-Path $sqlPackagePath)) {
-    throw "Could not find SqlPackage.exe path"
-}
-if (-Not (Test-Path $dacpacPath)) {
-    throw "$dacpac path does not exist"
+if (-Not $sqlPackagePath) {
+    $sqlPackagePath = Get-Command sqlpackage -all | Select-Object -first 1 -ExpandProperty Source
+    if (-Not (Test-Path $sqlPackagePath)) {
+        throw "Could not find SqlPackage.exe path"
+    }
+    if (-Not (Test-Path $dacpacPath)) {
+        throw "$dacpac path does not exist"
+    }
 }
 
 & $sqlPackagePath /a:Publish `
