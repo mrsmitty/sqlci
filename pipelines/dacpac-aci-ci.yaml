@@ -4,34 +4,30 @@ trigger:
       - features/pipelines
 
 jobs:
-  - job: BuildDacpac
-    pool:
-      vmImage: windows-latest
-    steps:
-    - task: MSBuild@1
-      displayName: 'DACPAC build'
-      inputs:
-        solution: '$(System.DefaultWorkingDirectory)/db/test/test.sln'
+  # - job: BuildDacpac
+  #   pool:
+  #     vmImage: windows-latest
+  #   steps:
+  #   - task: MSBuild@1
+  #     displayName: 'DACPAC build'
+  #     inputs:
+  #       solution: '$(System.DefaultWorkingDirectory)/db/test/test.sln'
 
-    - task: CopyFiles@2
-      displayName: 'Copy DACPACs'
-      inputs:
-        cleanTargetFolder: false
-        sourceFolder: '$(System.DefaultWorkingDirectory)/db/test/bin/Debug/'
-        contents: '*.dacpac'
-        targetFolder: '$(build.artifactstagingdirectory)'
+  #   - task: CopyFiles@2
+  #     displayName: 'Copy DACPACs'
+  #     inputs:
+  #       cleanTargetFolder: false
+  #       sourceFolder: '$(System.DefaultWorkingDirectory)/db/test/bin/Debug/'
+  #       contents: '*.dacpac'
+  #       targetFolder: '$(build.artifactstagingdirectory)'
 
-    - publish: '$(build.artifactstagingdirectory)'
-      artifact: drop
+  #   - publish: '$(build.artifactstagingdirectory)'
+  #     artifact: drop
 
   - job: TestDacpac
-    dependsOn: BuildDacpac
-    condition: succeeded()
     pool:
       vmImage: 'windows-latest'
     steps:
-      - download: current
-        artifact: drop
       - task: PowerShell@2
         displayName: Install SqlPackage
         inputs:
@@ -40,5 +36,5 @@ jobs:
       - task: PowerShell@2
         inputs:
           targetType: 'filePath'
-          arguments: -sqlUserName sa -sqlUserPassword "HJkds*(pvdhsiuh289pV" -sqlServerName pws-aci-sqldevops.australiaeast.azurecontainer.io -databaseName test -dacpacPath $(Pipeline.Workspace)\drop\test.dacpac
+          arguments: -sqlUserName sa -sqlUserPassword "HJkds*(pvdhsiuh289pV" -sqlServerName pws-aci-sqldevops.australiaeast.azurecontainer.io -databaseName test -dacpacPath $(System.DefaultWorkingDirectory)\test.dacpac
           filePath: '$(System.DefaultWorkingDirectory)\pipelines\Publish-Dacpac.ps1'
